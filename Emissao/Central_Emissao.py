@@ -5,6 +5,8 @@ import contatos_v2 as ct
 
 import novo_v2
 
+import converttxt
+
 ####Padronizar renovacao
 
 path_raiz = r'C:\Users\Thomas' #Mude o caminho para o do seu computador
@@ -13,10 +15,13 @@ ano_mes = '24_08'
 padroniza = True
 agrupa = True
 plan_grades = True
+
 #############################
+
 contatos = False
 filtrar_data = False #Deixe True para filtrar e False para nao filtrar
 data_contatos = '21-06-2024'
+
 #############################
 
 caminho_original_p = r'Downloads\Base_v2\Emissao\Dados_Emissao\Original' #Crie um caminho nesses padroes nem seu compudator e cole aqui entre as aspas
@@ -30,10 +35,6 @@ if padroniza == True:
     ag.delete_all_contents(caminho_editado)
     file_paths = pe.list_files_in_folder(caminho_original)
 
-    
-    
-
-
     for i in file_paths:
         
         #pe.padronizaEmissao(i,caminho_editado,ano_mes)
@@ -43,9 +44,11 @@ if agrupa == True:
 
     path_grupo = r'Downloads\Base_v2\Emissao\Dados_Emissao\Agrupado\Emissoes_agrupado.xlsx' #caminho igual #arrumar esta funcao por conta do caminho esta mal feita
     destino_agrupado = os.path.join(path_raiz, path_grupo)
+    destino_agrupadotxt = os.path.join(path_raiz, r'Downloads\Base_v2\Emissao\Dados_Emissao\Agrupado\Emissoes_agrupado.txt')
     pasta_apagar = os.path.join(path_raiz, r'Downloads\Base_v2\Emissao\Dados_Emissao\Agrupado')
     ag.delete_all_contents(pasta_apagar)
     ag.agrupaEx(caminho_editado,destino_agrupado)
+    converttxt.ExcelToTxtConverter(destino_agrupado, destino_agrupadotxt, colunas_monetarias=['Valor Premio Liquido','Valor Premio Total'], delimiter=';')
 
 if plan_grades == True:
     path_grupo = r'Downloads\Base_v2\Emissao\Dados_Emissao\Agrupado\Emissoes_agrupado.xlsx' #caminho igual #arrumar esta funcao por conta do caminho esta mal feita

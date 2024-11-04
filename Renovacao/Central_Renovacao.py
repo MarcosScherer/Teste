@@ -16,15 +16,15 @@ ano_mes = '24_10'              #Mude para o mes da renovação
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 padroniza = True              #Deixe True se quiser executar ou False se não quiser executar
 ############
-imagem = True                 #Deixe True se quiser executar ou False se não quiser executar
+imagem = False                 #Deixe True se quiser executar ou False se não quiser executar
 date = False ##### Filtro quinzena                  #True se quiser filtrar as imagens por data   
 data_inicio = '15-06-2024'
 data_fim = '30-06-2024'
 ##################
-imagem_interna = True      #Deixe True se quiser executar ou False se não quiser executar
+imagem_interna = False      #Deixe True se quiser executar ou False se não quiser executar
 agrupa = True                 #Deixe True se quiser executar ou False se não quiser executar
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
-imagem_gestao = True
+imagem_gestao = False
 renovacoes_contatos = False
 
 

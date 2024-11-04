@@ -17,7 +17,10 @@ class StanEmissions:
         self.frota()
         self.new_order()
         self.transformar_data(['Inicio Vigencia', 'Fim Vigencia', 'Data de Emissao']) ####teste
-        self.remover_simbolos_moeda(['Valor Premio Liquido','Valor Premio Total'])
+        
+        self.normalize_contents(['Hist da Apolice'])
+        self.criar_coluna_zerado_mes()
+        self.limpar_colunas_monetarias(['Valor Premio Liquido','Valor Premio Total'])
         self.save_xlsx()
     
     def rename_headers(self):
@@ -109,13 +112,45 @@ class StanEmissions:
             # Converte para o formato 'YYYY-MM-DD' (aaaa-mm-dd)
             self.df[coluna] = self.df[coluna].dt.strftime('%Y-%m-%d')
     
-    def remover_simbolos_moeda(self, colunas):
+    def limpar_colunas_monetarias(self, colunas):
         for coluna in colunas:
-            # Remove os símbolos 'R$' e '$' de cada coluna e converte para numérico
+            # Remove os símbolos de moeda 'R$' e '$'
             self.df[coluna] = self.df[coluna].replace({'R\$': '', '\$': ''}, regex=True)
+
+
+            if str(self.df[coluna].iloc[2])[-3] == ',':
+            # Remove pontos e substitui vírgulas por pontos
+
+                self.df[coluna] = self.df[coluna].str.replace('.', '', regex=False)  # Remove os pontos
+                self.df[coluna] = self.df[coluna].str.replace(',', '.', regex=False) # Substitui a vírgula por ponto
+
+
             
-            # Converte a coluna para numérico (float), caso seja necessário para análise de dados
+            # Converte a coluna para numérico (float)
             #self.df[coluna] = pd.to_numeric(self.df[coluna], errors='coerce')
+    
+    
+    def criar_coluna_zerado_mes(self):
+        # Cria a coluna 'ZeradoMes' e preenche com "2024-01-01" se 'ramo' estiver vazio
+        self.df['ZeradoMes'] = self.df['Ramo'].apply(lambda x: "2024-10-01" if pd.isna(x) or x == "" else np.nan)
+
+        #indice_primeiro_valor = self.df['Data de Emissao'].first_valid_index()
+
+        # Verificar se existe um índice válido
+        #if indice_primeiro_valor is not None:
+        #    primeiro_valor = self.df.at[indice_primeiro_valor, 'Data de Emissao']
+        #    str(primeiro_valor)[2]
+
+        return self.df
+
+    def normalize_contents(self, colunas):
+        """Normalize all special characters in the specified columns of the DataFrame."""
+        for coluna in colunas:
+            if coluna in self.df.columns:  # Verifica se a coluna existe no DataFrame
+                self.df[coluna] = self.df[coluna].apply(lambda x: unidecode(str(x)).replace('ç', 'c') if isinstance(x, str) else x)
+            else:
+                print(f"Coluna '{coluna}' não encontrada no DataFrame.")
+        return self.df
 
 
     def save_xlsx(self):

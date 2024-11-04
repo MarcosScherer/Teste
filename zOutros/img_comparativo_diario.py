@@ -217,3 +217,9 @@ class ComparativoDaily():
 
 
 ComparativoDaily(r'C:\Users\Thomas\Downloads\Base_v2\Emissao\Dados_Emissao\Agrupado\Emissoes_agrupado.xlsx', r'C:\Users\Thomas\Downloads\Base_v2\Renovacao\Dados_Renovacao\Agrupado\Renovacoes_agrupado.xlsx')
+
+
+
+
+
+
